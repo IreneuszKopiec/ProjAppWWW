@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="kolorujtlo.js" type="text/javascript"></script>
+    <script src="timedate.js" type="text/javascript"></script>
+    <title>Testowanie JS</title>
+  </head>
+  <body onload="startclock()">
+    <form method="POST" name="background">
+      <input
+        type="button"
+        value="żółty"
+        onclick="changeBackground('#FFF000')"
+      />
+      <input
+        type="button"
+        value="czarny"
+        onclick="changeBackground('#000000')"
+      />
+      <input
+        type="button"
+        value="biały"
+        onclick="changeBackground('#FFFFFF')"
+      />
+      <input
+        type="button"
+        value="zielony"
+        onclick="changeBackground('#00FF00')"
+      />
+      <input
+        type="button"
+        value="niebieski"
+        onclick="changeBackground('#0000FF')"
+      />
+      <input
+        type="button"
+        value="pomarańczowy"
+        onclick="changeBackground('#FF8000')"
+      />
+      <input
+        type="button"
+        value="szary"
+        onclick="changeBackground('#c0c0c0')"
+      />
+      <input
+        type="button"
+        value="czerwony"
+        onclick="changeBackground('#FF0000')"
+      />
+    </form>
+
+    <div
+      id="zegarek"
+      style="width: 100px; height: 100px; background-color: red"
+    ></div>
+    <div
+      id="data"
+      style="width: 100px; height: 100px; background-color: blue"
+    ></div>
+  </body>
+</html>
