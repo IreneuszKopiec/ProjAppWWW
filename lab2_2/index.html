@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Language" content="pl" />
+    <meta name="Author" content="Ireneusz Kopiec" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="kolorujtlo.js" type="text/javascript"></script>
+    <script src="timedate.js" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <title>Największe mosty świata</title>
+  </head>
+  <body onload="startclock()">
+    <header>
+      <nav>
+        <ul class="nav-list">
+          <li>
+            <a href="index.html" class="list-item">Home</a>
+          </li>
+          <li>
+            <a href="wysokosc.html" class="list-item">Najwyższe</a>
+          </li>
+          <li>
+            <a href="dlugosc.html" class="list-item">Najdłuższe</a>
+          </li>
+          <li>
+            <a href="galeria.html" class="list-item">Galeria</a>
+          </li>
+          <li>
+            <a href="ciekawostki.html" class="list-item">Ciekawostki</a>
+          </li>
+          <li>
+            <a href="kontakt.html" class="list-item">Kontakt</a>
+          </li>
+          <li>
+            <a class="list-item" onclick="openVothcom()">Javascript</a>
+          </li>
+        </ul>
+      </nav>
+
+      <h1 class="header-title" id="header-title" onclick="changeBackground()">
+        Największe mosty świata
+      </h1>
+    </header>
+
+    <main>
+      <section class="about">
+        <h2 class="section-title">
+          Witamy na stronie Największe Mosty Świata!
+        </h2>
+        <br />
+        <p class="section-text">
+          Nasza strona jest dedykowana wszystkim miłośnikom inżynierii,
+          architektury i podróży. Zebraliśmy dla Was informacje o najbardziej
+          imponujących mostach na świecie – tych najdłuższych, najwyższych oraz
+          najciekawszych z punktu widzenia historii i technologii.
+        </p>
+        <p class="section-text">
+          Na naszej stronie znajdziesz najwyższe mosty świata jak i te
+          najdłuższe. Mamy też galerię zdjęć najpopularniejszych mostów na
+          świecie oraz ciekawostki o różnych innych mostach.
+        </p>
+
+        <p class="section-text">
+          Naszą misją jest pokazanie, jak wielki wpływ mosty mają na nasze
+          codzienne życie, ale również jak są one symbolem ludzkiej kreatywności
+          i możliwości technologicznych. Niezależnie od tego, czy jesteś
+          inżynierem, podróżnikiem, czy po prostu osobą ciekawą świata – u nas
+          znajdziesz coś interesującego. Zapraszamy do odkrywania fascynującego
+          świata mostów!
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      <div class="section-text">
+        <div id="zegarek"></div>
+        <div id="data"></div>
+      </div>
+
+      <p class="section-text">Copyright: &copy; Ireneusz Kopiec</p>
+    </footer>
+  </body>
+</html>
