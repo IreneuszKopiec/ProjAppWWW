@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Language" content="pl" />
+    <meta name="Author" content="Ireneusz Kopiec" />
+    <title>Największe mosty świata</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <script src="../js/kolorujtlo.js" type="text/javascript"></script>
+    <script src="../js/timedate.js" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  </head>
+  <body onload="startclock()">
+    <header>
+      <nav>
+        <ul class="nav-list">
+          <li>
+            <a href="../index.html" class="list-item">Home</a>
+          </li>
+          <li>
+            <a href="../html/wysokosc.html" class="list-item">Najwyższe</a>
+          </li>
+          <li>
+            <a href="../html/dlugosc.html" class="list-item">Najdłuższe</a>
+          </li>
+          <li>
+            <a href="../html/galeria.html" class="list-item">Galeria</a>
+          </li>
+          <li>
+            <a href="../html/ciekawostki.html" class="list-item">Ciekawostki</a>
+          </li>
+          <li>
+            <a href="../html/kontakt.html" class="list-item">Kontakt</a>
+          </li>
+          <li>
+            <a class="list-item" onclick="openVothcom()">Javascript</a>
+          </li>
+        </ul>
+      </nav>
+
+      <h1 class="header-title" id="header-title" onclick="changeBackground()">
+        Największe mosty świata
+      </h1>
+    </header>
+
+    <main>
+      <section class="gallery">
+        <h2 class="section-title">Galeria popularnych mostów</h2>
+        <div class="gallery-container">
+          <div class="gallery-item">
+            <img
+              class="gallery-img"
+              src="../img/p5.webp"
+              alt="Most Millau we Francji"
+            />
+            <p class="section-text">Most Millau we Francji</p>
+          </div>
+          <div class="gallery-item">
+            <img
+              class="gallery-img"
+              src="../img/p4.webp"
+              alt="Most Brooklyński w Nowym Jorku"
+            />
+            <p class="section-text">Most Brooklyński w Nowym Jorku</p>
+          </div>
+          <div class="gallery-item">
+            <img
+              class="gallery-img"
+              src="../img/p3.webp"
+              alt="Most Bosforski w Stambuley"
+            />
+            <p class="section-text">Most Bosforski w Stambule</p>
+          </div>
+          <div class="gallery-item">
+            <img
+              class="gallery-img"
+              src="../img/p2.webp"
+              alt="Golden Gate w San Francisco"
+            />
+            <p class="section-text">Golden Gate w San Francisco</p>
+          </div>
+          <div class="gallery-item">
+            <img
+              class="gallery-img"
+              src="../img/p1.webp"
+              alt="Tower bridge w Londynie"
+            />
+            <p class="section-text">Tower bridge w Londynie</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="section-text">
+        <div id="zegarek"></div>
+        <div id="data"></div>
+      </div>
+
+      <p class="section-text">Copyright: &copy; Ireneusz Kopiec</p>
+    </footer>
+    <script>
+      const scale1 = 1.05;
+      const scale2 = 1;
+
+      $(".gallery-img").on("mouseover", function () {
+        $(this).css({
+          transform: `scale(${scale1})`,
+          transition: "transform 0.1s ease",
+        });
+      });
+
+      $(".gallery-img").on("mouseout", function () {
+        $(this).css({
+          transform: `scale(${scale2})`,
+          transition: "transform 0.1s ease",
+        });
+      });
+    </script>
+  </body>
+</html>
