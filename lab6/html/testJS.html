@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <script src="../js/kolorujtlo.js" type="text/javascript"></script>
+    <script src="../js/timedate.js" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <title>Testowanie JS</title>
+  </head>
+  <body onload="startclock()">
+    <form method="POST" name="background">
+      <input
+        type="button"
+        value="żółty"
+        onclick="changeBackground('#FFF000')"
+      />
+      <input
+        type="button"
+        value="czarny"
+        onclick="changeBackground('#000000')"
+      />
+      <input
+        type="button"
+        value="biały"
+        onclick="changeBackground('#FFFFFF')"
+      />
+      <input
+        type="button"
+        value="zielony"
+        onclick="changeBackground('#00FF00')"
+      />
+      <input
+        type="button"
+        value="niebieski"
+        onclick="changeBackground('#0000FF')"
+      />
+      <input
+        type="button"
+        value="pomarańczowy"
+        onclick="changeBackground('#FF8000')"
+      />
+      <input
+        type="button"
+        value="szary"
+        onclick="changeBackground('#c0c0c0')"
+      />
+      <input
+        type="button"
+        value="czerwony"
+        onclick="changeBackground('#FF0000')"
+      />
+    </form>
+
+
+
+    <div id="animacjaTestowa1" class="test-block">Kliknij, a się powiększe</div>
+    <script>
+      $("#animacjaTestowa1").on("click", function () {
+        $(this).animate(
+          {
+            width: "500px",
+            opacity: 0.4,
+            fontSize: "3em",
+            borderWidth: "10px",
+          },
+          1500
+        );
+      });
+    </script>
+
+    <div id="animacjaTestowa2" class="test-block">
+      Najedź kursorem, a się powiększe
+    </div>
+    <script>
+      $("#animacjaTestowa2").on("mouseover", function () {
+        $(this).animate(
+          {
+            width: "300px",
+          },
+          800
+        );
+      });
+      $("#animacjaTestowa2").on("mouseout", function () {
+        $(this).animate(
+          {
+            width: "200px",
+          },
+          800
+        );
+      });
+    </script>
+
+    <div id="animacjaTestowa3" class="test-block">Klikaj, abym urósł</div>
+    <script>
+      $("#animacjaTestowa3").on("click", function () {
+        if (!$(this).is(":animated")) {
+          $(this).animate({
+            width: "+=" + 50,
+            height: "+=" + 10,
+            opacity: "-=" + 0.1,
+            duration: 3000,
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
