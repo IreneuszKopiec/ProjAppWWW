@@ -4,41 +4,9 @@
  
  include 'cfg.php';
  include 'showpage.php';
-
+ include 'showtitle.php';
 
  $idp = $_GET['idp'];
- if ($idp == '' || $idp == 'glowna') {
-      $page = 'html/glowna.html';
-      $title = "Strona główna";
-  } elseif ($idp == 'wysokosc') {
-      $page = 'html/wysokosc.html';
-      $title = "Największe mosty świata";
-  } elseif ($idp == 'dlugosc') {
-      $page = 'html/dlugosc.html';
-      $title = "Najdłuższe mosty świata";
-  } elseif ($idp == 'galeria') {
-      $page = 'html/galeria.html';
-      $title = "Galeria";
-  } elseif ($idp == 'ciekawostki') {
-      $page = 'html/ciekawostki.html';
-      $title = "Ciekawostki";
-  } elseif ($idp == 'kontakt') {
-      $page = 'html/kontakt.html';
-      $title = "Kontakt";
-  } elseif ($idp == 'testJS') {
-      $page = 'html/testJS.html';
-      $title = "Testowanie JS";
-  } elseif ($idp == 'filmy') {
-    $page = 'html/filmy.html';
-    $title = "Filmiki";
-  } 
-  
-
-  if(!file_exists($page)) {
-    $page = 'html/glowna.html';
-  }
- 
-
 ?>
 
 
@@ -60,16 +28,7 @@
       <nav>
 
           <ul class="nav-list">
-                    <!--
-          <li><a href="index.php?idp=glowna" class="list-item">Home</a></li>
-          <li><a href="index.php?idp=wysokosc" class="list-item">Najwyższe</a></li>
-          <li><a href="index.php?idp=dlugosc" class="list-item">Najdłuższe</a></li>
-          <li><a href="index.php?idp=galeria" class="list-item">Galeria</a></li>
-          <li><a href="index.php?idp=ciekawostki" class="list-item">Ciekawostki</a></li>
-          <li><a href="index.php?idp=kontakt" class="list-item">Kontakt</a></li>
-          <li><a href="index.php?idp=testJS" class="list-item">testJS</a></li>
-          <li><a href="index.php?idp=filmy" class="list-item">Filmy</a></li>
--->
+                   
           <li><a href="index.php?idp=1" class="list-item">Home</a></li>
           <li><a href="index.php?idp=2" class="list-item">Najwyższe</a></li>
           <li><a href="index.php?idp=3" class="list-item">Najdłuższe</a></li>
@@ -84,14 +43,14 @@
 
       <h1 class="header-title" id="header-title" onclick="changeBackground()">
         <?php
-        echo $title;
+        Title($idp);
         ?>
       </h1>
     </header>
 
     <main>
       <?php
-        include($page);
+        PokazPodstrone($idp);
       ?>
     </main>
 

@@ -1,6 +1,6 @@
 <?php
 
-function PokazPodstrone($id) {
+function Title($id) {
     include 'cfg.php';
 
     $id_clear = htmlspecialchars($id);
@@ -12,7 +12,7 @@ function PokazPodstrone($id) {
     if(empty($row['id'])) {
         echo 'nie_znaleziono_strony';
     } else {
-        echo $row['page_content'];
+        echo $row['page_title'];
     }
 }
 ?>
