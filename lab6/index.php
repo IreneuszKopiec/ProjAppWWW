@@ -21,7 +21,7 @@
     <script src="js/kolorujtlo.js" type="text/javascript"></script>
     <script src="js/timedate.js" type="text/javascript"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <title>Największe mosty świata v1.4</title>
+    <title>Największe mosty świata v1.5</title>
   </head>
   <body onload="startclock()">
     <header>
