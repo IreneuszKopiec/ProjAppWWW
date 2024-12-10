@@ -206,42 +206,35 @@ function UsunPodstrone($id, $link) {
 }
 
 
-//Funkcja pokazania listy kategorii
+// Funkcja pokazania listy kategorii
 function PokazKategorie($mother=0, $link, $level=2) {
-    //Jeżeli user nie jest zalogowany -> wyświetl formularz logowania
-    if(!$_SESSION['login']) {
+  // Jeżeli user nie jest zalogowany -> wyświetl formularz logowania
+  if (!$_SESSION['login']) {
       FormularzLogowania('Musisz być zalogowany, aby uzyskać dostęp.');
       return;
-    }
-    //Wykonanie zapytania sql
-    $result = $link->query("SELECT id, matka, nazwa FROM kategoria WHERE matka ='$mother' LIMIT 10");
+  }
   
-    
-    if($result->num_rows > 0) {
+  // Wykonanie zapytania sql
+  $result = $link->query("SELECT id, matka, nazwa FROM kategoria WHERE matka ='$mother' LIMIT 10");
+
+  if ($result->num_rows > 0) {
       
-      echo "<table>";
-  
-      //Pętla pomagająca stworzyć wiersze i kolumny
+      echo "<ul>"; // Rozpocznij listę unordered
+
+      // Pętla pomagająca stworzyć wiersze i kolumny
       while ($row = $result->fetch_array()) {
-        echo "<tr>
-                <td >{$row['id']}</td> 
-                <td style='padding-left:".($row['id']==0 ? $level*50 : 0)."px'>{$row['nazwa']}</td>
-                <td>
-                    <a href='?edit_id2={$row['id']}'>Edytuj</a> | 
-                    <a href='?delete_id2={$row['id']}'>Usuń</a>
-                </td>
-              </tr>";
-              PokazKategorie($row['id'], $link, $level=$level+1);
+          echo "<li style='padding-left:".($row['id'] == 0 ? $level * 50 : 0)."px'>{$row['nazwa']}</li>
+                <ul>"; // Rozpocznij zagnieżdżoną listę dla podkategorii
+
+          PokazKategorie($row['id'], $link, $level = $level + 1); // Rekursywnie wyświetl podkategorie
+
+          echo "</ul>"; // Zamknij zagnieżdżoną listę
       }
 
-      //Zakończenie listy (tabeli)
-      if($level == 0) {
-        echo "</table>";
-      }
-
-      }
-    
+      echo "</ul>"; // Zamknij główną listę
+  }
 }
+
 
 
 
