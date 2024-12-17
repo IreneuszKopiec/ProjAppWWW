@@ -380,56 +380,65 @@ function PokazProdukt($link) {
       FormularzLogowania('Musisz być zalogowany, aby uzyskać dostęp.');
       return;
   }
-  
+
   // Wykonanie zapytania sql
   $result = $link->query("SELECT * FROM produkt LIMIT 10");
 
   echo "<table>";
-  echo "<tr><th>ID</th><th>Tytuł</th>
-  <th>opis</th><th>data utworzenia</th><th>data modyfikacji</th>
-  <th>data_wygasniecia</th><th>cena netto</th><th>podatek vat</th>
-  <th>ilosc</th><th>status</th><th>kategoria</th><th>gabaryty</th>
-  <th>Akcje</th></tr>";
+  echo "<tr><th>ID</th><th>Tytuł</th><th>Opis</th><th>Data utworzenia</th><th>Data modyfikacji</th><th>Data wygasniecia</th><th>Cena netto</th><th>Podatek VAT</th><th>Ilość</th><th>Status</th><th>Kategoria</th><th>Gabaryty</th><th>Zdjęcie</th><th>Akcje</th></tr>";
 
-  //Pętla pomagająca stworzyć wiersze i kolumny
+  // Pętla pomagająca stworzyć wiersze i kolumny
   while ($row = $result->fetch_array()) {
-    echo "<tr>
-            <td>{$row['id']}</td>
-            <td>{$row['tytul']}</td>
-            <td>{$row['opis']}</td>
-            <td>{$row['data_utworzenia']}</td>
-            <td>{$row['data_modyfikacji']}</td>
-            <td>{$row['data_wygasniecia']}</td>
-            <td>{$row['cena_netto']}</td>
-            <td>{$row['podatek_vat']}</td>
-            <td>{$row['ilosc_w_magazynie']}</td>
-            <td>{$row['status']}</td>
-            <td>{$row['kategoria']}</td>
-            <td>{$row['gabaryt_produktu']}</td>
+      echo "<tr>
+              <td>{$row['id']}</td>
+              <td>{$row['tytul']}</td>
+              <td>{$row['opis']}</td>
+              <td>{$row['data_utworzenia']}</td>
+              <td>{$row['data_modyfikacji']}</td>
+              <td>{$row['data_wygasniecia']}</td>
+              <td>{$row['cena_netto']}</td>
+              <td>{$row['podatek_vat']}</td>
+              <td>{$row['ilosc_w_magazynie']}</td>
+              <td>{$row['status']}</td>
+              <td>{$row['kategoria']}</td>
+              <td>{$row['gabaryt_produktu']}</td>
+              <td>";
+
+      if (!empty($row['zdjecie'])) {
+          // Używamy ścieżki do pliku bezpośrednio w `src` tagu img
+          echo "<img src='{$row['zdjecie']}' alt='Zdjęcie' width='100' height='100'>";
+      } else {
+          echo "Brak zdjęcia";
+      }
+
+      echo "</td>
             <td>
                 <a href='?edit_id3={$row['id']}'>Edytuj</a> | 
                 <a href='?delete_id3={$row['id']}'>Usuń</a>
             </td>
           </tr>";
   }
+
   echo "</table>";
 }
 
 
-//Funkcja do dodania kategorii
-function DodajProdukt($link) {
 
-  //Jeżeli user nie jest zalogowany -> wyświetl formularz logowania
+
+
+
+
+function DodajProdukt($link) {
+  // Jeżeli user nie jest zalogowany -> wyświetl formularz logowania
   if (!$_SESSION['login']) {
     FormularzLogowania('Musisz być zalogowany, aby uzyskać dostęp.');
     return;
   }
 
-
   echo "
     <h2>Dodaj nowy produkt</h2>
     <form method='post' action=''>
-        <label for='tytul'>Tutuł:</label><br>
+        <label for='tytul'>Tytuł:</label><br>
         <input type='text' name='tytul' id='tytul' required><br><br>
 
         <label for='opis'>Opis:</label><br>
@@ -456,15 +465,18 @@ function DodajProdukt($link) {
         <label for='gabaryt'>Gabaryty produktu:</label><br>
         <textarea name='gabaryt' id='gabaryt' rows='10' cols='50' required></textarea><br><br>
 
+        <label for='zdjecie'>Wklej ścieżkę do zdjęcia:</label>
+        <input type='text' id='zdjecie' name='zdjecie' required><br><br>
+
         <button type='submit' name='save_product'>Zapisz nowy produkt</button>
     </form>
   ";
 
-  //Po dodaniu kategori należy zaktualizować baze danych
+  // Po dodaniu produkt należy zaktualizować bazę danych
   if (isset($_POST['save_product'])) {
     $tytul = $_POST['tytul'];
     $opis = $_POST['opis'];
-    $data_utworzenia = date_create();
+    $data_utworzenia = date('Y-m-d H:i:s'); // Używaj obecnej daty i czasu
     $data_wygasniecia = $_POST['expiration'];
     $netto = $_POST['netto'];
     $vat = $_POST['vat'];
@@ -472,31 +484,194 @@ function DodajProdukt($link) {
     $status = $_POST['status'];
     $kategoria = $_POST['kategoria'];
     $gabaryt = $_POST['gabaryt'];
+    $zdjecie = $_POST['zdjecie']; // Przechowujemy pełną ścieżkę dostępu do zdjęcia
 
-
-    //Przygotowanie zapytania
+    // Przygotowanie zapytania
     $stmt = $link->prepare("INSERT INTO produkt (tytul, opis, 
     data_utworzenia, data_modyfikacji, data_wygasniecia,
     cena_netto, podatek_vat, ilosc_w_magazynie, status, kategoria,
-    gabaryt_produktu) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    //Przygotowanie parametrów zapytania
-    $stmt->bind_param("sssssdiisis", $tytul, $opis, $data_utworzenia, 
+    gabaryt_produktu, zdjecie) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+    // Przygotowanie parametrów zapytania
+    $stmt->bind_param("sssssdiissss", $tytul, $opis, $data_utworzenia, 
     $data_utworzenia, $data_wygasniecia, $netto, $vat, $ilosc, 
-    $status, $kategoria, $gabaryt);
+    $status, $kategoria, $gabaryt, $zdjecie);
 
-    //Wykonanie zapytania
+    // Wykonanie zapytania
     if ($stmt->execute()) {
-      //Odświeżenie strony
-      header("Location: ?");
-      //Zakończenie skryptu
-      exit();
+        // Odświeżenie strony
+        header("Location: ?");
+        exit();
     } else {
-      echo "<p>Błąd podczas dodawania produktu: " . $stmt->error . "</p>";
+        echo "<p>Błąd podczas dodawania produktu: " . $stmt->error . "</p>";
     }
+  }
 }
 
 
+
+
+
+
+
+
+
+
+
+function EdytujProdukt($link) {
+  // Sprawdzamy, czy użytkownik jest zalogowany
+  if (!$_SESSION['login']) {
+      FormularzLogowania('Musisz być zalogowany, aby uzyskać dostęp.');
+      return;
+  }
+
+  // Pobieramy ID produktu do edycji
+  if (!isset($_GET['edit_id3'])) {
+      echo "Brak ID produktu do edycji.";
+      return;
+  }
+
+  $id = $_GET['edit_id3'];
+
+  // Pobranie danych produktu do edycji
+  $query = $link->prepare("SELECT * FROM produkt WHERE id = ?");
+  $query->bind_param("i", $id);
+  $query->execute();
+  $result = $query->get_result();
+
+  if ($result->num_rows === 0) {
+      echo "Produkt o podanym ID nie istnieje.";
+      return;
+  }
+
+  $produkt = $result->fetch_assoc();
+
+  // Formularz edycji
+  echo "
+  <h2>Edytuj produkt</h2>
+  <form method='post' action=''>
+      <label for='tytul'>Tytuł:</label><br>
+      <input type='text' name='tytul' id='tytul' value='{$produkt['tytul']}' required><br><br>
+
+      <label for='opis'>Opis:</label><br>
+      <textarea name='opis' id='opis' rows='5' cols='50' required>{$produkt['opis']}</textarea><br><br>
+
+      <label for='expiration'>Data wygaśnięcia:</label><br>
+      <input type='date' name='expiration' id='expiration' value='{$produkt['data_wygasniecia']}' required><br><br>
+
+      <label for='netto'>Cena netto:</label><br>
+      <input type='text' name='netto' id='netto' value='{$produkt['cena_netto']}' required><br><br>
+
+      <label for='vat'>Podatek VAT:</label><br>
+      <input type='number' name='vat' id='vat' value='{$produkt['podatek_vat']}' required><br><br>
+
+      <label for='ilosc'>Ilość w magazynie:</label><br>
+      <input type='number' name='ilosc' id='ilosc' value='{$produkt['ilosc_w_magazynie']}' required><br><br>
+
+      <label for='status'>Status dostępności:</label><br>
+      <input type='text' name='status' id='status' value='{$produkt['status']}' required><br><br>
+
+      <label for='kategoria'>Kategoria:</label><br>
+      <input type='number' name='kategoria' id='kategoria' value='{$produkt['kategoria']}' required><br><br>
+
+      <label for='gabaryt'>Gabaryty produktu:</label><br>
+      <input type='text' name='gabaryt' id='gabaryt' value='{$produkt['gabaryt_produktu']}' required><br><br>
+
+      <label for='zdjecie'>Ścieżka do zdjęcia:</label><br>
+      <input type='text' name='zdjecie' id='zdjecie' value='{$produkt['zdjecie']}'><br><br>
+
+      <button type='submit' name='update_product'>Zapisz zmiany</button>
+  </form>
+  ";
+
+  // Aktualizacja danych w bazie
+  if (isset($_POST['update_product'])) {
+      $tytul = $_POST['tytul'];
+      $opis = $_POST['opis'];
+      $data_wygasniecia = $_POST['expiration'];
+      $cena_netto = $_POST['netto'];
+      $podatek_vat = $_POST['vat'];
+      $ilosc = $_POST['ilosc'];
+      $status = $_POST['status'];
+      $kategoria = $_POST['kategoria'];
+      $gabaryt = $_POST['gabaryt'];
+      $zdjecie = $_POST['zdjecie']; 
+
+      $data_modyfikacji = date('Y-m-d'); // Data aktualizacji
+
+      // Przygotowanie zapytania do aktualizacji
+      $stmt = $link->prepare("UPDATE produkt SET 
+          tytul = ?, 
+          opis = ?, 
+          data_modyfikacji = ?, 
+          data_wygasniecia = ?, 
+          cena_netto = ?, 
+          podatek_vat = ?, 
+          ilosc_w_magazynie = ?, 
+          status = ?, 
+          kategoria = ?, 
+          gabaryt_produktu = ?, 
+          zdjecie = ? 
+          WHERE id = ?");
+
+      $stmt->bind_param(
+          "ssssdiissssi", 
+          $tytul, 
+          $opis, 
+          $data_modyfikacji, 
+          $data_wygasniecia, 
+          $cena_netto, 
+          $podatek_vat, 
+          $ilosc, 
+          $status, 
+          $kategoria, 
+          $gabaryt, 
+          $zdjecie, 
+          $id
+      );
+
+      // Wykonanie zapytania
+      if ($stmt->execute()) {
+          echo "Produkt został zaktualizowany pomyślnie.";
+          // Opcjonalnie: przekierowanie na stronę główną
+          header("Location: ?");
+          exit();
+      } else {
+          echo "<p>Błąd podczas aktualizacji produktu: " . $stmt->error . "</p>";
+      }
+  }
 }
+
+function UsunProdukt($link) {
+  // Sprawdzamy, czy użytkownik jest zalogowany
+  if (!$_SESSION['login']) {
+      FormularzLogowania('Musisz być zalogowany, aby uzyskać dostęp.');
+      return;
+  }
+
+  // Pobieramy ID produktu do usunięcia
+  if (!isset($_GET['delete_id3'])) {
+      echo "Brak ID produktu do usunięcia.";
+      return;
+  }
+
+  $id = $_GET['delete_id3'];
+
+  // Przygotowanie zapytania do usunięcia
+  $stmt = $link->prepare("DELETE FROM produkt WHERE id = ?");
+  $stmt->bind_param("i", $id);
+
+  // Wykonanie zapytania
+  if ($stmt->execute()) {
+      echo "Produkt o ID $id został pomyślnie usunięty.";
+      // Opcjonalnie: przekierowanie na stronę główną
+      header("Location: ?");
+      exit();
+  } else {
+      echo "<p>Błąd podczas usuwania produktu: " . $stmt->error . "</p>";
+  }
+}
+
 
 
 
@@ -540,11 +715,11 @@ if ($_SESSION['login']) {
 if ($_SESSION['login']) {
   //Warunki sprawdzające czy któraś z funkcji została aktywowana -> wykonanie danej funkcji
   if (isset($_GET['edit_id3'])) {
-      
+      EdytujProdukt($link, $_GET['edit_id3']);
   } elseif (isset($_GET['add_new3'])) {
       DodajProdukt($link);
   } elseif (isset($_GET['delete_id3'])) {
-      
+      UsunProdukt($link);
   } else {
       echo "<a href='?add_new3=true'>Dodaj nowy produkt</a>";
       PokazProdukt($link);
